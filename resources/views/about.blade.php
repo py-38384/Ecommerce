@@ -83,7 +83,7 @@
                 </div>
     
                 <div class="col-md-6 text-center d-flex justify-content-start justify-content-md-end ">
-                    <a href="#" class="btn btn-accent main-btn-color mt-2" style="width: 200px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                    <a href="{{ route('shop') }}" class="btn btn-accent main-btn-color mt-2" style="width: 200px; height: 50px; display: flex; align-items: center; justify-content: center;">
                         Start Shopping
                     </a>
                 </div>

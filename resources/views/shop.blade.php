@@ -12,21 +12,13 @@
                         <h5 class="filter-title mb-3">Categories</h5>
 
                         <ul class="list-unstyled category-list">
+                            @foreach ($categories as $index => $category)
                             <li>
-                                <a href="#" class="category-item active">
-                                    Fashion
+                                <a href="#" class="category-item @if($index == 0) active @endif">
+                                    {{ $category->name }}
                                 </a>
                             </li>
-                            <li>
-                                <a href="#" class="category-item">
-                                    Jewelry
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="category-item">
-                                    Accessories
-                                </a>
-                            </li>
+                            @endforeach
                         </ul>
 
                         <hr>
@@ -58,22 +50,14 @@
                     </div>
 
                     <div class="row g-3">
-                        <x-frontend.product-card/>
-                        <x-frontend.product-card/>
+                        @foreach ($products as $product)
+                        <x-frontend.product-card :product="$product" :shop="true"/>
+                        @endforeach
 
                     </div>
-
-
-                    <div class="d-flex justify-content-center mt-5">
-                        <nav>
-                            <ul class="pagination">
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            </ul>
-                        </nav>
+                    <div style="margin-top: 12px;">
+                        {{ $products->links('pagination::bootstrap-5') }}
                     </div>
-
                 </div>
             </div>
         </div>

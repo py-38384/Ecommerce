@@ -38,10 +38,27 @@ return [
             'report' => false,
         ],
 
-        'public' => [
+        'local_public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
             'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
+        'media' => [
+            'driver' => 'local',
+            'root' => public_path('assets/media'),
+            'url' => env('APP_URL').'/assets/media',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+        'public' => [
+            'driver' => 'local',
+            'root' => public_path(),
+            'url' => env('APP_URL'),
             'visibility' => 'public',
             'throw' => false,
             'report' => false,

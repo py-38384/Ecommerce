@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name',255);
             $table->unsignedBigInteger('category_id')->nullable();
-            $table->text('tag')->nullable();
-            $table->string('sku');
+            $table->text('tags')->nullable();
+            $table->string('sku')->unique();
+            $table->string('slug')->unique();
             $table->decimal('reguler_price',12);
             $table->decimal('price',12);
             $table->integer('quentity');
@@ -25,8 +26,6 @@ return new class extends Migration
             $table->longText('description');
             $table->boolean('is_featured')->default(false);
             $table->enum('status',['published','pending','out_of_stock'])->default('pending');
-            $table->string('hero_image');
-            $table->text('gallery_images')->nullable();
             $table->timestamps();
         });
     }

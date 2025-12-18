@@ -1,4 +1,5 @@
 <x-guest-layout>
+     @section('title',$title)
     <div class="container my-5">
 
         <div class="mb-4">
@@ -9,10 +10,12 @@
         <div class="row g-4">
 
             <div class="col-lg-8">
-                <x-frontend.cart-product-card/>
-                <x-frontend.cart-product-card/>
-                <x-frontend.cart-product-card/>
-                <x-frontend.cart-product-card/>
+                @forelse ($products as $product)
+                <x-frontend.cart-product-card :product="$product"/>
+                    
+                @empty
+                    
+                @endforelse
             </div>
 
             <div class="col-lg-4">

@@ -46,8 +46,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-4 dark:text-gray-100"
-                    style="display: flex; justify-content: end; gap: 10px">
+                <div class="p-4 dark:text-gray-100" style="display: flex; justify-content: end; gap: 10px">
                     <a href="{{ route('admin.products.create')}}" class="btn">Add Product</a>
                 </div>
             </div>
@@ -57,62 +56,79 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="pt-6 px-6 dark:text-gray-100" id="product-count">
-                        Total Blogs = 1
+                        Total Products = {{ $products_count }}
                     </div>
                     <div class="table-card">
-                        <table class="project-table">
+
+                        <table class="product-table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>SKU</th>
                                     <th>Image</th>
                                     <th>Name & Description</th>
+                                    <th>Regular Price</th>
                                     <th>Price</th>
-                                    <th>Discounted Price</th>
                                     <th>Quentity</th>
                                     <th>Alert quantity</th>
                                     <th>Status</th>
-                                    <th>Actions</th>
+                                    <th>Is Featured</th>
+                                    <th style="position: sticky; right: 0; z-index: 2;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>#3</td>
-                                    <td>
-                                        <img src="{{ asset('assets/images/product_images/647478c99236e1685354697.jpg') }}"
-                                            alt="product Image" class="product-img" />
-                                    </td>
-                                    <td>
-                                        <div class="product-title">
-                                            Sun Bycicle
-                                        </div>
-                                        <div class="product-desc">
-                                            Deploying a Laravel application to a live production
-                                            server is one of the biggest steps in turning your
-                                            project...
-                                        </div>
-                                    </td>
-                                    <td>150</td>
-                                    <td>110</td>
-                                    <td>30</td>
-                                    <td>5</td>
-                                    <td><span class="status active">Active</span></td>
-                                    <td>
-                                        <div class="actions">
-                                            <a href="https://pial.hstn.me/blogs/3/edit" class="btn edit">Edit</a>
-                                            <form action="https://pial.hstn.me/blogs/3/delete" method="post"
-                                                onsubmit="deleteRequest(event)">
-                                                <input type="hidden" name="_token"
-                                                    value="eNR26uhW0xGbAcU3bbbytFeXxHregxiayyUAFhzt"
-                                                    autocomplete="off" />
-                                                <input type="hidden" name="_method" value="DELETE" />
-                                                <button class="btn delete">Delete</button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
+                                @forelse ($products as $product)
+                                    <tr>
+                                        <td style="min-width: 200px; text-wrap: nowrap;">#{{ $product->sku }}</td>
+                                        <td >
+                                            <div class="" style="min-width: 150px;" >
+                                                <img src="{{ $product->getFirstMedia('hero_image')->getUrl() }}"
+                                                    alt="Product Image" class="product-img" style="width: 150px; height: 150px" />
+                                            </div>
+                                        </td>
+                                        <td style="min-width: 800px;">
+                                            <div class="product-title">
+                                                {{ $product->name }}
+                                            </div>
+                                            <br>
+                                            <div class="product-desc">
+                                                {{ $product->short_description }}
+                                            </div>
+                                        </td>
+                                        <td style="min-width: 150px; text-wrap: nowrap;">{{ $product->regular_price }}</td>
+                                        <td style="min-width: max-content; text-wrap: nowrap;">{{ $product->price }}</td>
+                                        <td style="min-width: 100px; text-wrap: nowrap;">{{ $product->quantity }}</td>
+                                        <td style="min-width: 150px; text-wrap: nowrap;">{{ $product->alert_quantity }}</td>
+                                        @if($product->status == 'published')
+                                            <td style="min-width: 150px;"><span class="status active">Published</span></td>
+                                        @else
+                                            <td style="min-width: 150px;"><span class="status inactive">Pending</span></td>
+                                        @endif
+                                        @if($product->is_featured)
+                                            <td style="min-width: 150px;"><span class="status active">Featured</span></td>
+                                        @else
+                                            <td style="min-width: 150px;"><span class="status inactive">Not Featured</span></td>
+                                        @endif
+                                        <td style="position: sticky; right: 0; z-index: 2;">
+                                            <div class="actions">
+                                                <a href="{{ route('admin.products.edit',$product->id) }}" class="btn edit">Edit</a>
+                                                <form action="{{ route('admin.products.delete',$product->id) }}" method="post" onsubmit="deleteRequest(event)">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn delete">Delete</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="10" style="text-align: center;">No Product Found</td> 
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
-                        <div></div>
+                    </div>
+                    <div>
+                        {{ $products->links() }}
                     </div>
                 </div>
             </div>
@@ -124,7 +140,7 @@
                 e.preventDefault();
 
                 Swal.fire({
-                    title: "Are you sure you want to delete this Product?",
+                    title: "Are you sure you want to delete this Category?",
                     text: "You won't be able to revert this!",
                     icon: "warning",
                     showCancelButton: true,
